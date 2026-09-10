@@ -1,0 +1,1066 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NOIRÉ — AI Powered Premium Dining</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<script>
+tailwind.config = {
+    theme: {
+        extend: {
+            colors: {
+                gold: '#D4AF37',
+                crimson: '#8B111E',
+                midnight: '#050505'
+            },
+            fontFamily: {
+                sans: ['Inter', 'sans-serif'],
+                display: ['Playfair Display', 'serif']
+            }
+        }
+    }
+}
+</script>
+
+<style>
+*{scroll-behavior:smooth}
+body{
+    background:
+      radial-gradient(circle at 15% 10%,rgba(212,175,55,.08),transparent 28%),
+      radial-gradient(circle at 85% 25%,rgba(139,17,30,.10),transparent 30%),
+      #050505;
+    color:#f5f5f5;
+}
+.glass{
+    background:rgba(15,15,15,.72);
+    border:1px solid rgba(212,175,55,.14);
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+}
+.gold-gradient{
+    background:linear-gradient(135deg,#f4d978,#d4af37,#9b7920);
+}
+.text-gold-gradient{
+    background:linear-gradient(90deg,#f6dc82,#d4af37,#fff0a8);
+    -webkit-background-clip:text;
+    background-clip:text;
+    color:transparent;
+}
+.hero-glow{
+    box-shadow:0 0 100px rgba(212,175,55,.09), inset 0 0 60px rgba(139,17,30,.04);
+}
+.menu-card{
+    position:relative;
+    overflow:hidden;
+    transition:.45s cubic-bezier(.2,.8,.2,1);
+}
+.menu-card:before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg,rgba(212,175,55,.15),transparent 35%,rgba(139,17,30,.12));
+    opacity:0;
+    transition:.4s;
+    pointer-events:none;
+    z-index:1;
+}
+.menu-card:hover{
+    transform:translateY(-8px);
+    border-color:rgba(212,175,55,.65);
+    box-shadow:0 25px 70px rgba(0,0,0,.65),0 0 30px rgba(212,175,55,.08);
+}
+.menu-card:hover:before{opacity:1}
+.menu-card img{
+    transition:transform .7s cubic-bezier(.2,.8,.2,1),filter .5s;
+}
+.menu-card:hover img{
+    transform:scale(1.09);
+    filter:saturate(1.15);
+}
+.img-wrap{overflow:hidden}
+.nav-link{position:relative}
+.nav-link:after{
+    content:"";
+    position:absolute;
+    left:50%;
+    bottom:-7px;
+    width:0;
+    height:2px;
+    background:#D4AF37;
+    transition:.3s;
+    transform:translateX(-50%);
+}
+.nav-link.active,.nav-link:hover{color:#D4AF37}
+.nav-link.active:after,.nav-link:hover:after{width:70%}
+.reveal{
+    opacity:0;
+    transform:translateY(25px);
+    transition:opacity .8s ease,transform .8s ease;
+}
+.reveal.show{opacity:1;transform:none}
+.cart-item{animation:slideIn .3s ease}
+@keyframes slideIn{
+    from{opacity:0;transform:translateX(15px)}
+    to{opacity:1;transform:none}
+}
+.pulse-gold{animation:pulseGold 2s infinite}
+@keyframes pulseGold{
+    0%,100%{box-shadow:0 0 0 0 rgba(212,175,55,.15)}
+    50%{box-shadow:0 0 0 12px rgba(212,175,55,0)}
+}
+.typing-cursor{
+    border-right:3px solid #D4AF37;
+    animation:blink .7s infinite;
+}
+@keyframes blink{50%{border-color:transparent}}
+.progress{
+    background:linear-gradient(90deg,#D4AF37,#f5dd79);
+}
+.ai-loader{
+    width:25px;height:25px;border:3px solid rgba(255,255,255,.15);
+    border-top-color:#D4AF37;border-radius:50%;
+    animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+#cartDrawer{transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.overlay{transition:opacity .3s}
+.star{color:#D4AF37}
+.countdown{
+    font-variant-numeric:tabular-nums;
+    letter-spacing:.08em;
+}
+section{scroll-margin-top:90px}
+</style>
+</head>
+
+<body class="font-sans">
+
+<!-- NAVBAR -->
+<header class="fixed top-0 left-0 right-0 z-50">
+<nav class="glass mx-3 mt-3 rounded-2xl px-5 py-4 max-w-7xl lg:mx-auto">
+<div class="flex items-center justify-between">
+    <a href="#home" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl gold-gradient text-black flex items-center justify-center shadow-lg">
+            <i class="fa-solid fa-crown"></i>
+        </div>
+        <div>
+            <div class="font-display text-xl tracking-[.2em]">NOIRÉ</div>
+            <div class="text-[8px] tracking-[.35em] text-gray-500 uppercase">Premium Dining</div>
+        </div>
+    </a>
+
+    <div id="desktopNav" class="hidden xl:flex items-center gap-7 text-sm text-gray-400">
+        <a class="nav-link active" href="#home">Home</a>
+        <a class="nav-link" href="#burgers">Burgers</a>
+        <a class="nav-link" href="#pizza">Pizza</a>
+        <a class="nav-link" href="#shawarma">Shawarma</a>
+        <a class="nav-link" href="#fries">Fries</a>
+        <a class="nav-link" href="#beverages">Beverages</a>
+        <a class="nav-link" href="#deals">Deals</a>
+        <a class="nav-link" href="#ai-calorie">AI Calorie Hub</a>
+    </div>
+
+    <div class="flex items-center gap-2">
+        <button onclick="openCart()" class="relative w-11 h-11 rounded-xl border border-white/10 hover:border-gold/60 transition flex items-center justify-center">
+            <i class="fa-solid fa-bag-shopping text-gold"></i>
+            <span id="cartCount" class="absolute -top-1 -right-1 bg-crimson text-white text-[10px] w-5 h-5 rounded-full flex items-center justify-center">0</span>
+        </button>
+        <button id="mobileBtn" class="xl:hidden w-11 h-11 rounded-xl border border-white/10 flex items-center justify-center">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+    </div>
+</div>
+
+<div id="mobileNav" class="hidden xl:hidden pt-5 border-t border-white/10 mt-4">
+    <div class="grid grid-cols-2 gap-2 text-sm">
+        <a class="mobile-link" href="#home">Home</a>
+        <a class="mobile-link" href="#burgers">Burgers</a>
+        <a class="mobile-link" href="#pizza">Pizza</a>
+        <a class="mobile-link" href="#shawarma">Shawarma</a>
+        <a class="mobile-link" href="#fries">Fries</a>
+        <a class="mobile-link" href="#beverages">Beverages</a>
+        <a class="mobile-link" href="#deals">Deals</a>
+        <a class="mobile-link" href="#ai-calorie">AI Calorie Hub</a>
+    </div>
+</div>
+</nav>
+</header>
+
+<style>
+.mobile-link{
+    padding:13px 14px;
+    border:1px solid rgba(255,255,255,.06);
+    border-radius:12px;
+    color:#aaa;
+}
+.mobile-link:hover{color:#D4AF37;border-color:rgba(212,175,55,.3)}
+</style>
+
+<!-- HERO -->
+<section id="home" class="min-h-screen flex items-center pt-28 relative overflow-hidden">
+<div class="absolute top-1/4 -left-40 w-96 h-96 bg-gold/10 rounded-full blur-[130px]"></div>
+<div class="absolute bottom-0 -right-40 w-96 h-96 bg-crimson/15 rounded-full blur-[130px]"></div>
+
+<div class="max-w-7xl mx-auto px-5 w-full">
+<div class="grid lg:grid-cols-2 gap-14 items-center">
+
+<div class="reveal">
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-xs tracking-widest uppercase text-gold mb-7">
+    <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+    AI-Powered Premium Kitchen
+</div>
+
+<h1 class="font-display text-5xl sm:text-6xl lg:text-7xl leading-[1.05] mb-7">
+    <span id="typingText" class="text-gold-gradient"></span><span class="typing-cursor"></span>
+</h1>
+
+<p class="text-gray-400 text-lg max-w-xl leading-8 mb-9">
+    Where flame-grilled craftsmanship meets intelligent dining.
+    Discover chef-inspired fast food, personalized nutrition and
+    effortless ordering — all in one premium experience.
+</p>
+
+<div class="flex flex-wrap gap-4">
+    <a href="#deals" class="gold-gradient text-black font-bold px-7 py-4 rounded-xl hover:scale-[1.03] transition shadow-xl shadow-gold/10">
+        Explore Signature Menu <i class="fa-solid fa-arrow-right ml-2"></i>
+    </a>
+    <a href="#ai-calorie" class="px-7 py-4 rounded-xl border border-white/15 hover:border-gold/50 transition">
+        <i class="fa-solid fa-wand-magic-sparkles text-gold mr-2"></i> AI Calorie Hub
+    </a>
+</div>
+
+<div class="flex gap-8 mt-10 text-sm">
+    <div><strong class="text-white text-xl">4.9</strong><div class="text-gray-500">Guest Rating</div></div>
+    <div class="border-l border-white/10 pl-8"><strong class="text-white text-xl">30+</strong><div class="text-gray-500">Signature Items</div></div>
+    <div class="border-l border-white/10 pl-8"><strong class="text-white text-xl">24/7</strong><div class="text-gray-500">Digital Ordering</div></div>
+</div>
+</div>
+
+<div class="reveal relative">
+<div class="absolute inset-0 bg-gold/10 blur-[80px] rounded-full"></div>
+<div class="relative glass rounded-[2rem] p-3 hero-glow">
+    <div class="rounded-[1.5rem] overflow-hidden aspect-[4/5]">
+        <img src="download (64).jfif" class="w-full h-full object-cover" alt="Premium Burger">
+    </div>
+    <div class="absolute left-7 right-7 bottom-7 glass rounded-2xl p-5 flex items-center justify-between">
+        <div>
+            <div class="text-xs text-gold uppercase tracking-widest">Chef's Signature</div>
+            <div class="font-display text-xl mt-1">The Noiré Crown Burger</div>
+        </div>
+        <div class="text-gold font-bold">Rs. 1,190</div>
+    </div>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- SECTION HEADER -->
+<section class="py-16 border-y border-white/5">
+<div class="max-w-7xl mx-auto px-5 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+    <div class="reveal"><i class="fa-solid fa-fire-flame-curved text-gold text-2xl"></i><p class="font-semibold mt-3">Flame Crafted</p><p class="text-xs text-gray-500 mt-1">Freshly prepared</p></div>
+    <div class="reveal"><i class="fa-solid fa-brain text-gold text-2xl"></i><p class="font-semibold mt-3">AI Nutrition</p><p class="text-xs text-gray-500 mt-1">Smart food insights</p></div>
+    <div class="reveal"><i class="fa-solid fa-gem text-gold text-2xl"></i><p class="font-semibold mt-3">Premium Quality</p><p class="text-xs text-gray-500 mt-1">Selected ingredients</p></div>
+    <div class="reveal"><i class="fa-solid fa-bolt text-gold text-2xl"></i><p class="font-semibold mt-3">Fast Delivery</p><p class="text-xs text-gray-500 mt-1">Made for your moment</p></div>
+</div>
+</section>
+
+<!-- MENU SECTION TEMPLATE -->
+
+<!-- BURGERS -->
+<section id="burgers" class="py-24">
+<div class="max-w-7xl mx-auto px-5">
+<div class="reveal mb-12">
+    <div class="text-gold text-xs uppercase tracking-[.3em] mb-3">01 — Flame Crafted</div>
+    <h2 class="font-display text-4xl md:text-5xl">Signature Burgers</h2>
+    <p class="text-gray-500 mt-3 max-w-2xl">Hand-layered, flame-grilled and finished with sauces created for a richer premium bite.</p>
+</div>
+
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+<!-- 64 -->
+<div class="menu-card glass rounded-2xl" data-name="Noiré Crown Burger" data-price="1190">
+<div class="img-wrap aspect-[4/3]"><img src="download (64).jfif" class="w-full h-full object-cover" alt="Noiré Crown Burger"></div>
+<div class="p-5 relative z-10">
+<span class="text-[10px] uppercase tracking-widest text-gold">Signature</span>
+<h3 class="font-display text-xl mt-2">Noiré Crown Burger</h3>
+<p class="text-gray-500 text-sm mt-2">Double flame-grilled beef, aged cheddar, caramelized onions and crown sauce.</p>
+<div class="flex justify-between items-center mt-5"><b>Rs. 1,190</b><button onclick="addToCart('Noiré Crown Burger',1190)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div>
+</div></div>
+
+<!-- 65 -->
+<div class="menu-card glass rounded-2xl" data-name="Truffle Smash Burger" data-price="1390">
+<div class="img-wrap aspect-[4/3]"><img src="download (65).jfif" class="w-full h-full object-cover" alt="Truffle Smash Burger"></div>
+<div class="p-5 relative z-10"><span class="text-[10px] uppercase tracking-widest text-gold">Chef Selection</span><h3 class="font-display text-xl mt-2">Truffle Smash Burger</h3><p class="text-gray-500 text-sm mt-2">Crisp-edged beef, truffle aioli, parmesan and slow-cooked onions.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,390</b><button onclick="addToCart('Truffle Smash Burger',1390)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<!-- 66 -->
+<div class="menu-card glass rounded-2xl" data-name="Smoked BBQ Supreme" data-price="1290">
+<div class="img-wrap aspect-[4/3]"><img src="download (66).jfif" class="w-full h-full object-cover" alt="Smoked BBQ Supreme"></div>
+<div class="p-5 relative z-10"><span class="text-[10px] uppercase tracking-widest text-crimson">Smoked</span><h3 class="font-display text-xl mt-2">Smoked BBQ Supreme</h3><p class="text-gray-500 text-sm mt-2">Charred beef patty, smoked cheese, crispy onion and house BBQ glaze.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,290</b><button onclick="addToCart('Smoked BBQ Supreme',1290)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<!-- 67 FIT -->
+<div class="menu-card glass rounded-2xl border-green-400/20" data-name="Grilled Avocado Fit Burger" data-price="1090">
+<div class="img-wrap aspect-[4/3]"><img src="download (67).jfif" class="w-full h-full object-cover" alt="Grilled Avocado Fit Burger"></div>
+<div class="p-5 relative z-10"><span class="text-[10px] uppercase tracking-widest text-green-400">● Fit Choice</span><h3 class="font-display text-xl mt-2">Grilled Avocado Burger</h3><p class="text-gray-500 text-sm mt-2">Lean grilled chicken, avocado, greens and light herb yogurt sauce.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,090</b><button onclick="addToCart('Grilled Avocado Fit Burger',1090)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<!-- 68 -->
+<div class="menu-card glass rounded-2xl" data-name="Crispy Royal Chicken" data-price="1050">
+<div class="img-wrap aspect-[4/3]"><img src="download (68).jfif" class="w-full h-full object-cover" alt="Crispy Royal Chicken"></div>
+<div class="p-5 relative z-10"><span class="text-[10px] uppercase tracking-widest text-gold">Crispy</span><h3 class="font-display text-xl mt-2">Crispy Royal Chicken</h3><p class="text-gray-500 text-sm mt-2">Golden chicken fillet, lettuce, cheese and signature royal mayo.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,050</b><button onclick="addToCart('Crispy Royal Chicken',1050)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<!-- 69 -->
+<div class="menu-card glass rounded-2xl" data-name="Inferno Beef Burger" data-price="1250">
+<div class="img-wrap aspect-[4/3]"><img src="download (69).jfif" class="w-full h-full object-cover" alt="Inferno Beef Burger"></div>
+<div class="p-5 relative z-10"><span class="text-[10px] uppercase tracking-widest text-crimson">Spicy</span><h3 class="font-display text-xl mt-2">Inferno Beef Burger</h3><p class="text-gray-500 text-sm mt-2">Premium beef, roasted jalapeño, pepper jack and crimson hot sauce.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,250</b><button onclick="addToCart('Inferno Beef Burger',1250)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<!-- 70 -->
+<div class="menu-card glass rounded-2xl" data-name="Classic Gold Burger" data-price="990">
+<div class="img-wrap aspect-[4/3]"><img src="download (70).jfif" class="w-full h-full object-cover" alt="Classic Gold Burger"></div>
+<div class="p-5 relative z-10"><span class="text-[10px] uppercase tracking-widest text-gold">Classic</span><h3 class="font-display text-xl mt-2">Classic Gold Burger</h3><p class="text-gray-500 text-sm mt-2">Juicy beef, American cheese, pickles, lettuce and house dressing.</p><div class="flex justify-between items-center mt-5"><b>Rs. 990</b><button onclick="addToCart('Classic Gold Burger',990)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<!-- 71 -->
+<div class="menu-card glass rounded-2xl" data-name="Cheese Volcano Burger" data-price="1350">
+<div class="img-wrap aspect-[4/3]"><img src="download (71).jfif" class="w-full h-full object-cover" alt="Cheese Volcano Burger"></div>
+<div class="p-5 relative z-10"><span class="text-[10px] uppercase tracking-widest text-gold">Loaded</span><h3 class="font-display text-xl mt-2">Cheese Volcano</h3><p class="text-gray-500 text-sm mt-2">Triple cheese, grilled beef, crispy onions and molten cheese sauce.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,350</b><button onclick="addToCart('Cheese Volcano Burger',1350)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<!-- 72 -->
+<div class="menu-card glass rounded-2xl" data-name="Royal Chicken Stack" data-price="1150">
+<div class="img-wrap aspect-[4/3]"><img src="download (72).jfif" class="w-full h-full object-cover" alt="Royal Chicken Stack"></div>
+<div class="p-5 relative z-10"><span class="text-[10px] uppercase tracking-widest text-gold">Premium</span><h3 class="font-display text-xl mt-2">Royal Chicken Stack</h3><p class="text-gray-500 text-sm mt-2">Two crispy chicken layers, smoked cheddar and creamy pepper sauce.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,150</b><button onclick="addToCart('Royal Chicken Stack',1150)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+</div>
+</div>
+</section>
+
+<!-- PIZZA -->
+<section id="pizza" class="py-24 bg-white/[.015]">
+<div class="max-w-7xl mx-auto px-5">
+<div class="reveal mb-12"><div class="text-gold text-xs uppercase tracking-[.3em] mb-3">02 — Artisan Oven</div><h2 class="font-display text-4xl md:text-5xl">Signature Pizza</h2><p class="text-gray-500 mt-3">Hand-finished dough, premium toppings and a golden oven finish.</p></div>
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+<div class="menu-card glass rounded-2xl" data-name="Truffle Mushroom Pizza" data-price="1790"><div class="img-wrap aspect-[4/3]"><img src="download (73).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-gold uppercase tracking-widest">Chef Signature</span><h3 class="font-display text-xl mt-2">Truffle Mushroom</h3><p class="text-gray-500 text-sm mt-2">Wild mushrooms, mozzarella, parmesan and aromatic truffle finish.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,790</b><button onclick="addToCart('Truffle Mushroom Pizza',1790)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Smoky BBQ Pizza" data-price="1690"><div class="img-wrap aspect-[4/3]"><img src="download (74).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-crimson uppercase tracking-widest">Smoky</span><h3 class="font-display text-xl mt-2">Smoky BBQ Chicken</h3><p class="text-gray-500 text-sm mt-2">Charred chicken, mozzarella, red onion and smoky BBQ glaze.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,690</b><button onclick="addToCart('Smoky BBQ Pizza',1690)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Pepperoni Gold Pizza" data-price="1850"><div class="img-wrap aspect-[4/3]"><img src="download (75).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-gold uppercase tracking-widest">Classic Luxury</span><h3 class="font-display text-xl mt-2">Pepperoni Gold</h3><p class="text-gray-500 text-sm mt-2">Premium pepperoni, mozzarella, herbs and a rich tomato base.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,850</b><button onclick="addToCart('Pepperoni Gold Pizza',1850)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl border-green-400/20" data-name="Garden Fit Pizza" data-price="1490"><div class="img-wrap aspect-[4/3]"><img src="download (76).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-green-400 uppercase tracking-widest">● Fit Choice</span><h3 class="font-display text-xl mt-2">Garden Fit Pizza</h3><p class="text-gray-500 text-sm mt-2">Fresh vegetables, light mozzarella and herb tomato sauce.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,490</b><button onclick="addToCart('Garden Fit Pizza',1490)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Four Cheese Royale" data-price="1890"><div class="img-wrap aspect-[4/3]"><img src="download (77).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-gold uppercase tracking-widest">Rich</span><h3 class="font-display text-xl mt-2">Four Cheese Royale</h3><p class="text-gray-500 text-sm mt-2">Mozzarella, cheddar, parmesan and creamy blue cheese.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,890</b><button onclick="addToCart('Four Cheese Royale',1890)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Spicy Chicken Pizza" data-price="1590"><div class="img-wrap aspect-[4/3]"><img src="download (78).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-crimson uppercase tracking-widest">Hot</span><h3 class="font-display text-xl mt-2">Spicy Chicken</h3><p class="text-gray-500 text-sm mt-2">Spiced chicken, jalapeños, mozzarella and crimson chili oil.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,590</b><button onclick="addToCart('Spicy Chicken Pizza',1590)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Creamy Alfredo Pizza" data-price="1690"><div class="img-wrap aspect-[4/3]"><img src="download (79).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl">Creamy Alfredo</h3><p class="text-gray-500 text-sm mt-2">Creamy white sauce, grilled chicken, mushrooms and herbs.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,690</b><button onclick="addToCart('Creamy Alfredo Pizza',1690)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Loaded Meat Feast" data-price="1990"><div class="img-wrap aspect-[4/3]"><img src="download (80).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-gold uppercase tracking-widest">Ultimate</span><h3 class="font-display text-xl mt-2">Loaded Meat Feast</h3><p class="text-gray-500 text-sm mt-2">A premium selection of beef, chicken, pepperoni and smoked toppings.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,990</b><button onclick="addToCart('Loaded Meat Feast',1990)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Mediterranean Olive Pizza" data-price="1590"><div class="img-wrap aspect-[4/3]"><img src="download (81).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl mt-2">Mediterranean Olive</h3><p class="text-gray-500 text-sm mt-2">Olives, roasted peppers, feta-style cheese and Mediterranean herbs.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,590</b><button onclick="addToCart('Mediterranean Olive Pizza',1590)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+</div></div>
+</section>
+
+<!-- SHAWARMA -->
+<section id="shawarma" class="py-24">
+<div class="max-w-7xl mx-auto px-5">
+<div class="reveal mb-12"><div class="text-gold text-xs uppercase tracking-[.3em] mb-3">03 — Levantine Craft</div><h2 class="font-display text-4xl md:text-5xl">Signature Shawarma</h2><p class="text-gray-500 mt-3">Slow-marinated meats, fresh herbs and luxurious house sauces.</p></div>
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+<div class="menu-card glass rounded-2xl" data-name="Royal Chicken Shawarma" data-price="790"><div class="img-wrap aspect-[4/3]"><img src="download (82).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl">Royal Chicken Shawarma</h3><p class="text-gray-500 text-sm mt-2">Marinated chicken, garlic cream, pickles and fresh herbs.</p><div class="flex justify-between items-center mt-5"><b>Rs. 790</b><button onclick="addToCart('Royal Chicken Shawarma',790)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Loaded Beef Shawarma" data-price="890"><div class="img-wrap aspect-[4/3]"><img src="download (83).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-gold uppercase tracking-widest">Premium</span><h3 class="font-display text-xl mt-2">Loaded Beef Shawarma</h3><p class="text-gray-500 text-sm mt-2">Tender beef, tahini, caramelized onions and crisp vegetables.</p><div class="flex justify-between items-center mt-5"><b>Rs. 890</b><button onclick="addToCart('Loaded Beef Shawarma',890)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Cheese Shawarma" data-price="850"><div class="img-wrap aspect-[4/3]"><img src="download (84).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl mt-2">Cheese Melt Shawarma</h3><p class="text-gray-500 text-sm mt-2">Juicy chicken shawarma wrapped with molten premium cheese.</p><div class="flex justify-between items-center mt-5"><b>Rs. 850</b><button onclick="addToCart('Cheese Melt Shawarma',850)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl border-green-400/20" data-name="Keto Fit Shawarma" data-price="820"><div class="img-wrap aspect-[4/3]"><img src="download (85).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-green-400 uppercase tracking-widest">● Fit Choice</span><h3 class="font-display text-xl mt-2">Keto Shawarma Wrap</h3><p class="text-gray-500 text-sm mt-2">Lean chicken, greens, cucumber and light garlic yogurt dressing.</p><div class="flex justify-between items-center mt-5"><b>Rs. 820</b><button onclick="addToCart('Keto Fit Shawarma',820)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Spicy Arabic Shawarma" data-price="850"><div class="img-wrap aspect-[4/3]"><img src="download (86).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-crimson uppercase tracking-widest">Spicy</span><h3 class="font-display text-xl mt-2">Arabic Fire Shawarma</h3><p class="text-gray-500 text-sm mt-2">Spiced chicken, jalapeño, garlic sauce and crimson chili dressing.</p><div class="flex justify-between items-center mt-5"><b>Rs. 850</b><button onclick="addToCart('Arabic Fire Shawarma',850)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Crispy Shawarma" data-price="880"><div class="img-wrap aspect-[4/3]"><img src="download (87).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl mt-2">Crispy Shawarma</h3><p class="text-gray-500 text-sm mt-2">Crispy chicken, creamy sauce, lettuce and toasted wrap.</p><div class="flex justify-between items-center mt-5"><b>Rs. 880</b><button onclick="addToCart('Crispy Shawarma',880)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Mediterranean Shawarma" data-price="900"><div class="img-wrap aspect-[4/3]"><img src="download (88).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl mt-2">Mediterranean Shawarma</h3><p class="text-gray-500 text-sm mt-2">Grilled chicken, feta-style cheese, olives and fresh herbs.</p><div class="flex justify-between items-center mt-5"><b>Rs. 900</b><button onclick="addToCart('Mediterranean Shawarma',900)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Beef Garlic Shawarma" data-price="920"><div class="img-wrap aspect-[4/3]"><img src="download (89).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl mt-2">Beef Garlic Royale</h3><p class="text-gray-500 text-sm mt-2">Slow-grilled beef strips, garlic cream, onions and pickles.</p><div class="flex justify-between items-center mt-5"><b>Rs. 920</b><button onclick="addToCart('Beef Garlic Royale',920)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Shawarma Platter" data-price="1290"><div class="img-wrap aspect-[4/3]"><img src="download (90).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-gold uppercase tracking-widest">Platter</span><h3 class="font-display text-xl mt-2">Noiré Shawarma Platter</h3><p class="text-gray-500 text-sm mt-2">Premium shawarma slices, fries, sauces and fresh salad.</p><div class="flex justify-between items-center mt-5"><b>Rs. 1,290</b><button onclick="addToCart('Noiré Shawarma Platter',1290)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+</div></div>
+</section>
+
+<!-- FRIES -->
+<section id="fries" class="py-24 bg-white/[.015]">
+<div class="max-w-7xl mx-auto px-5">
+<div class="reveal mb-12"><div class="text-gold text-xs uppercase tracking-[.3em] mb-3">04 — Golden Sides</div><h2 class="font-display text-4xl md:text-5xl">Gourmet Fries</h2></div>
+<div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+<div class="menu-card glass rounded-2xl" data-name="Truffle Parmesan Fries" data-price="690"><div class="img-wrap aspect-[4/3]"><img src="download (91).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl">Truffle Parmesan Fries</h3><p class="text-gray-500 text-sm mt-2">Crispy fries, parmesan snow and fragrant truffle oil.</p><div class="flex justify-between items-center mt-5"><b>Rs. 690</b><button onclick="addToCart('Truffle Parmesan Fries',690)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Loaded Cheese Fries" data-price="750"><div class="img-wrap aspect-[4/3]"><img src="download (92).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl">Loaded Cheese Fries</h3><p class="text-gray-500 text-sm mt-2">Golden fries covered in creamy cheese and crispy toppings.</p><div class="flex justify-between items-center mt-5"><b>Rs. 750</b><button onclick="addToCart('Loaded Cheese Fries',750)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="BBQ Beef Fries" data-price="790"><div class="img-wrap aspect-[4/3]"><img src="download (93).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl">BBQ Beef Fries</h3><p class="text-gray-500 text-sm mt-2">Crispy fries, smoky beef strips, BBQ glaze and herbs.</p><div class="flex justify-between items-center mt-5"><b>Rs. 790</b><button onclick="addToCart('BBQ Beef Fries',790)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl border-green-400/20" data-name="Fit Herb Fries" data-price="490"><div class="img-wrap aspect-[4/3]"><img src="download (94).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><span class="text-[10px] text-green-400 uppercase tracking-widest">● Fit Choice</span><h3 class="font-display text-xl mt-2">Herb Fit Fries</h3><p class="text-gray-500 text-sm mt-2">Oven-finished potato wedges with herbs and light seasoning.</p><div class="flex justify-between items-center mt-5"><b>Rs. 490</b><button onclick="addToCart('Herb Fit Fries',490)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Spicy Crimson Fries" data-price="590"><div class="img-wrap aspect-[4/3]"><img src="download (95).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl mt-2">Crimson Spicy Fries</h3><p class="text-gray-500 text-sm mt-2">Crispy fries tossed in house crimson spice and chili mayo.</p><div class="flex justify-between items-center mt-5"><b>Rs. 590</b><button onclick="addToCart('Crimson Spicy Fries',590)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Garlic Mayo Fries" data-price="550"><div class="img-wrap aspect-[4/3]"><img src="download (96).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl mt-2">Garlic Mayo Fries</h3><p class="text-gray-500 text-sm mt-2">Golden fries served with silky roasted garlic mayo.</p><div class="flex justify-between items-center mt-5"><b>Rs. 550</b><button onclick="addToCart('Garlic Mayo Fries',550)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Mexican Loaded Fries" data-price="720"><div class="img-wrap aspect-[4/3]"><img src="download (97).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl mt-2">Mexican Loaded Fries</h3><p class="text-gray-500 text-sm mt-2">Cheese, jalapeño, salsa and smoky house seasoning.</p><div class="flex justify-between items-center mt-5"><b>Rs. 720</b><button onclick="addToCart('Mexican Loaded Fries',720)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Cheese Bacon Fries" data-price="790"><div class="img-wrap aspect-[4/3]"><img src="download (98).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl mt-2">Cheese Bacon Fries</h3><p class="text-gray-500 text-sm mt-2">Loaded fries with smoked beef bacon, cheese and herbs.</p><div class="flex justify-between items-center mt-5"><b>Rs. 790</b><button onclick="addToCart('Cheese Bacon Fries',790)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+<div class="menu-card glass rounded-2xl" data-name="Gourmet Salt Fries" data-price="450"><div class="img-wrap aspect-[4/3]"><img src="download (99).jfif" class="w-full h-full object-cover"></div><div class="p-5 relative z-10"><h3 class="font-display text-xl mt-2">Gourmet Sea Salt Fries</h3><p class="text-gray-500 text-sm mt-2">Perfectly crisp potatoes finished with premium sea salt.</p><div class="flex justify-between items-center mt-5"><b>Rs. 450</b><button onclick="addToCart('Gourmet Sea Salt Fries',450)" class="gold-gradient text-black w-10 h-10 rounded-xl"><i class="fa-solid fa-plus"></i></button></div></div></div>
+
+</div></div>
+</section>
+
+<!-- BEVERAGES -->
+<section id="beverages" class="py-24">
+<div class="max-w-7xl mx-auto px-5">
+<div class="reveal mb-12"><div class="text-gold text-xs uppercase tracking-[.3em] mb-3">05 — Next Cola Collection</div><h2 class="font-display text-4xl md:text-5xl">Next Cola</h2><p class="text-gray-500 mt-3">Choose your perfect size. Chilled, refreshing and made for every premium meal.</p></div>
+
+<div class="space-y-10">
+<div>
+<h3 class="font-display text-2xl mb-5">Half Litre <span class="text-sm text-gray-500 font-sans">— 500ml</span></h3>
+<div class="grid md:grid-cols-3 gap-5">
+<div class="menu-card glass rounded-2xl p-4 flex items-center gap-4" data-name="Next Cola Half Litre" data-price="180"><img src="download (100).jfif" class="w-24 h-24 rounded-xl object-cover"><div class="flex-1"><h4 class="font-semibold">Next Cola Classic</h4><p class="text-gray-500 text-xs mt-1">500ml</p><div class="flex justify-between mt-3"><b>Rs. 180</b><button onclick="addToCart('Next Cola Half Litre',180)" class="gold-gradient text-black w-8 h-8 rounded-lg"><i class="fa-solid fa-plus"></i></button></div></div></div>
+<div class="menu-card glass rounded-2xl p-4 flex items-center gap-4"><img src="download (101).jfif" class="w-24 h-24 rounded-xl object-cover"><div class="flex-1"><h4 class="font-semibold">Next Cola Zero</h4><p class="text-gray-500 text-xs mt-1">500ml</p><div class="flex justify-between mt-3"><b>Rs. 180</b><button onclick="addToCart('Next Cola Zero Half Litre',180)" class="gold-gradient text-black w-8 h-8 rounded-lg"><i class="fa-solid fa-plus"></i></button></div></div></div>
+<div class="menu-card glass rounded-2xl p-4 flex items-center gap-4"><img src="download (102).jfif" class="w-24 h-24 rounded-xl object-cover"><div class="flex-1"><h4 class="font-semibold">Next Cola Chill</h4><p class="text-gray-500 text-xs mt-1">500ml</p><div class="flex justify-between mt-3"><b>Rs. 180</b><button onclick="addToCart('Next Cola Chill Half Litre',180)" class="gold-gradient text-black w-8 h-8 rounded-lg"><i class="fa-solid fa-plus"></i></button></div></div></div>
+</div></div>
+
+<div>
+<h3 class="font-display text-2xl mb-5">Litre <span class="text-sm text-gray-500 font-sans">— 1L</span></h3>
+<div class="grid md:grid-cols-3 gap-5">
+<div class="menu-card glass rounded-2xl p-4 flex items-center gap-4"><img src="download (103).jfif" class="w-24 h-24 rounded-xl object-cover"><div class="flex-1"><h4 class="font-semibold">Next Cola Classic</h4><p class="text-gray-500 text-xs mt-1">1 Litre</p><div class="flex justify-between mt-3"><b>Rs. 260</b><button onclick="addToCart('Next Cola 1 Litre',260)" class="gold-gradient text-black w-8 h-8 rounded-lg"><i class="fa-solid fa-plus"></i></button></div></div></div>
+<div class="menu-card glass rounded-2xl p-4 flex items-center gap-4"><img src="download (104).jfif" class="w-24 h-24 rounded-xl object-cover"><div class="flex-1"><h4 class="font-semibold">Next Cola Zero</h4><p class="text-gray-500 text-xs mt-1">1 Litre</p><div class="flex justify-between mt-3"><b>Rs. 260</b><button onclick="addToCart('Next Cola Zero 1 Litre',260)" class="gold-gradient text-black w-8 h-8 rounded-lg"><i class="fa-solid fa-plus"></i></button></div></div></div>
+<div class="menu-card glass rounded-2xl p-4 flex items-center gap-4"><img src="download (105).jfif" class="w-24 h-24 rounded-xl object-cover"><div class="flex-1"><h4 class="font-semibold">Next Cola Chill</h4><p class="text-gray-500 text-xs mt-1">1 Litre</p><div class="flex justify-between mt-3"><b>Rs. 260</b><button onclick="addToCart('Next Cola Chill 1 Litre',260)" class="gold-gradient text-black w-8 h-8 rounded-lg"><i class="fa-solid fa-plus"></i></button></div></div></div>
+</div></div>
+
+<div>
+<h3 class="font-display text-2xl mb-5">Family Size <span class="text-sm text-gray-500 font-sans">— 1.5L</span></h3>
+<div class="grid md:grid-cols-3 gap-5">
+<div class="menu-card glass rounded-2xl p-4 flex items-center gap-4"><img src="download (106).jfif" class="w-24 h-24 rounded-xl object-cover"><div class="flex-1"><h4 class="font-semibold">Next Cola Classic</h4><p class="text-gray-500 text-xs mt-1">1.5 Litre</p><div class="flex justify-between mt-3"><b>Rs. 330</b><button onclick="addToCart('Next Cola 1.5 Litre',330)" class="gold-gradient text-black w-8 h-8 rounded-lg"><i class="fa-solid fa-plus"></i></button></div></div></div>
+<div class="menu-card glass rounded-2xl p-4 flex items-center gap-4"><img src="download (107).jfif" class="w-24 h-24 rounded-xl object-cover"><div class="flex-1"><h4 class="font-semibold">Next Cola Zero</h4><p class="text-gray-500 text-xs mt-1">1.5 Litre</p><div class="flex justify-between mt-3"><b>Rs. 330</b><button onclick="addToCart('Next Cola Zero 1.5 Litre',330)" class="gold-gradient text-black w-8 h-8 rounded-lg"><i class="fa-solid fa-plus"></i></button></div></div></div>
+<div class="menu-card glass rounded-2xl p-4 flex items-center gap-4"><img src="download (108).jfif" class="w-24 h-24 rounded-xl object-cover"><div class="flex-1"><h4 class="font-semibold">Next Cola Chill</h4><p class="text-gray-500 text-xs mt-1">1.5 Litre</p><div class="flex justify-between mt-3"><b>Rs. 330</b><button onclick="addToCart('Next Cola Chill 1.5 Litre',330)" class="gold-gradient text-black w-8 h-8 rounded-lg"><i class="fa-solid fa-plus"></i></button></div></div></div>
+</div></div>
+</div>
+</div>
+</section>
+
+<!-- DEALS -->
+<section id="deals" class="py-24 bg-white/[.015]">
+<div class="max-w-7xl mx-auto px-5">
+<div class="text-center reveal mb-12">
+<div class="text-gold text-xs uppercase tracking-[.3em] mb-3">06 — Limited Time</div>
+<h2 class="font-display text-4xl md:text-5xl">Premium Exclusive Deals</h2>
+<p class="text-gray-500 mt-3">Luxury bundles designed for sharing.</p>
+</div>
+
+<div class="grid lg:grid-cols-3 gap-6">
+
+<div class="menu-card glass rounded-3xl overflow-hidden">
+<div class="img-wrap aspect-[4/3]"><img src="download (109).jfif" class="w-full h-full object-cover"></div>
+<div class="p-6 relative z-10">
+<div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full bg-crimson/30 text-red-300 text-xs">LIMITED</span><span class="countdown text-gold text-xs" data-countdown="deal1">--:--:--</span></div>
+<h3 class="font-display text-2xl mt-4">Family Pizza Royal</h3>
+<p class="text-gray-500 text-sm mt-2">Family pizza + gourmet fries + Next Cola 1.5L.</p>
+<div class="flex justify-between mt-5 items-center"><b class="text-xl">Rs. 2,499</b><button onclick="addToCart('Family Pizza Royal Deal',2499)" class="gold-gradient text-black px-4 py-3 rounded-xl font-bold">Add Deal</button></div>
+</div></div>
+
+<div class="menu-card glass rounded-3xl overflow-hidden">
+<div class="img-wrap aspect-[4/3]"><img src="download (110).jfif" class="w-full h-full object-cover"></div>
+<div class="p-6 relative z-10">
+<div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full bg-gold/10 text-gold text-xs">BEST VALUE</span><span class="countdown text-gold text-xs" data-countdown="deal2">--:--:--</span></div>
+<h3 class="font-display text-2xl mt-4">Burger Night</h3>
+<p class="text-gray-500 text-sm mt-2">Two premium burgers + loaded fries + two drinks.</p>
+<div class="flex justify-between mt-5 items-center"><b class="text-xl">Rs. 2,199</b><button onclick="addToCart('Burger Night Deal',2199)" class="gold-gradient text-black px-4 py-3 rounded-xl font-bold">Add Deal</button></div>
+</div></div>
+
+<div class="menu-card glass rounded-3xl overflow-hidden">
+<div class="img-wrap aspect-[4/3]"><img src="download (111).jfif" class="w-full h-full object-cover"></div>
+<div class="p-6 relative z-10">
+<div class="flex justify-between items-center"><span class="px-3 py-1 rounded-full bg-green-500/10 text-green-400 text-xs">FAMILY</span><span class="countdown text-gold text-xs" data-countdown="deal3">--:--:--</span></div>
+<h3 class="font-display text-2xl mt-4">Grand Shawarma Feast</h3>
+<p class="text-gray-500 text-sm mt-2">Four shawarmas + gourmet fries + 1.5L Next Cola.</p>
+<div class="flex justify-between mt-5 items-center"><b class="text-xl">Rs. 2,599</b><button onclick="addToCart('Grand Shawarma Feast',2599)" class="gold-gradient text-black px-4 py-3 rounded-xl font-bold">Add Deal</button></div>
+</div></div>
+
+<!-- Remaining deal images visually displayed as premium mini collection -->
+<div class="lg:col-span-3 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3 mt-2">
+<div class="glass rounded-xl overflow-hidden aspect-square"><img src="download (112).jfif" class="w-full h-full object-cover"></div>
+<div class="glass rounded-xl overflow-hidden aspect-square"><img src="download (113).jfif" class="w-full h-full object-cover"></div>
+<div class="glass rounded-xl overflow-hidden aspect-square"><img src="download (114).jfif" class="w-full h-full object-cover"></div>
+<div class="glass rounded-xl overflow-hidden aspect-square"><img src="download (115).jfif" class="w-full h-full object-cover"></div>
+<div class="glass rounded-xl overflow-hidden aspect-square"><img src="download (116).jfif" class="w-full h-full object-cover"></div>
+<div class="glass rounded-xl overflow-hidden aspect-square"><img src="download (117).jfif" class="w-full h-full object-cover"></div>
+<div class="glass rounded-xl p-3 flex flex-col items-center justify-center text-center"><i class="fa-solid fa-gift text-gold text-2xl"></i><span class="text-xs text-gray-400 mt-2">More surprises inside</span></div>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- AI CALORIE HUB -->
+<section id="ai-calorie" class="py-24">
+<div class="max-w-6xl mx-auto px-5">
+<div class="glass rounded-[2rem] p-6 md:p-10 relative overflow-hidden">
+<div class="absolute -top-32 -right-32 w-80 h-80 bg-gold/10 rounded-full blur-[100px]"></div>
+<div class="relative z-10">
+
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+<div>
+<div class="text-gold text-xs uppercase tracking-[.3em] mb-3">07 — Intelligent Dining</div>
+<h2 class="font-display text-4xl md:text-5xl">AI Calorie Hub</h2>
+<p class="text-gray-500 mt-3 max-w-xl">Choose a menu item or ask our simulated AI about an ingredient to instantly understand its nutritional profile.</p>
+</div>
+<div class="flex items-center gap-2 text-xs text-green-400 glass rounded-full px-4 py-2">
+<span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span> AI Engine Online
+</div>
+</div>
+
+<div class="grid lg:grid-cols-2 gap-8">
+
+<div class="bg-black/40 rounded-2xl p-6 border border-white/5">
+<label class="text-xs uppercase tracking-widest text-gray-500">Select menu item</label>
+<select id="foodSelect" class="w-full mt-3 bg-white/5 border border-white/10 rounded-xl px-4 py-4 outline-none focus:border-gold/60">
+<option value="crown">Noiré Crown Burger</option>
+<option value="truffle">Truffle Smash Burger</option>
+<option value="avocado">Grilled Avocado Fit Burger</option>
+<option value="pizza">Truffle Mushroom Pizza</option>
+<option value="shawarma">Keto Shawarma Wrap</option>
+<option value="fries">Truffle Parmesan Fries</option>
+<option value="cola">Next Cola 1.5L</option>
+</select>
+
+<div class="mt-7 grid grid-cols-2 gap-3">
+<div class="rounded-xl bg-white/[.03] p-4"><span class="text-xs text-gray-500">Calories</span><div class="text-2xl font-bold mt-1"><span id="calories">820</span><small class="text-xs text-gray-500 ml-1">kcal</small></div><div class="h-1 bg-white/10 rounded mt-3"><div id="calBar" class="progress h-full rounded" style="width:82%"></div></div></div>
+<div class="rounded-xl bg-white/[.03] p-4"><span class="text-xs text-gray-500">Protein</span><div class="text-2xl font-bold mt-1"><span id="protein">42</span><small class="text-xs text-gray-500 ml-1">g</small></div><div class="h-1 bg-white/10 rounded mt-3"><div id="proteinBar" class="progress h-full rounded" style="width:70%"></div></div></div>
+<div class="rounded-xl bg-white/[.03] p-4"><span class="text-xs text-gray-500">Carbs</span><div class="text-2xl font-bold mt-1"><span id="carbs">64</span><small class="text-xs text-gray-500 ml-1">g</small></div><div class="h-1 bg-white/10 rounded mt-3"><div id="carbsBar" class="progress h-full rounded" style="width:64%"></div></div></div>
+<div class="rounded-xl bg-white/[.03] p-4"><span class="text-xs text-gray-500">Fats</span><div class="text-2xl font-bold mt-1"><span id="fats">38</span><small class="text-xs text-gray-500 ml-1">g</small></div><div class="h-1 bg-white/10 rounded mt-3"><div id="fatsBar" class="progress h-full rounded" style="width:55%"></div></div></div>
+</div>
+</div>
+
+<div class="bg-black/40 rounded-2xl p-6 border border-white/5">
+<div class="flex items-center gap-3 mb-5">
+<div class="w-11 h-11 rounded-xl gold-gradient text-black flex items-center justify-center"><i class="fa-solid fa-sparkles"></i></div>
+<div><h3 class="font-semibold">Ask Noiré AI</h3><p class="text-xs text-gray-500">Ingredient nutrition simulator</p></div>
+</div>
+
+<div class="flex gap-2">
+<input id="ingredientInput" type="text" placeholder="e.g. avocado, chicken, cheese..." class="flex-1 bg-white/5 border border-white/10 rounded-xl px-4 py-4 outline-none focus:border-gold/60">
+<button onclick="analyzeIngredient()" class="gold-gradient text-black px-5 rounded-xl font-bold"><i class="fa-solid fa-wand-magic-sparkles"></i></button>
+</div>
+
+<div id="aiResult" class="mt-5 min-h-[190px] rounded-xl border border-white/5 bg-white/[.02] p-5">
+<div class="h-full flex items-center justify-center text-center text-gray-600">
+<div><i class="fa-solid fa-brain text-3xl mb-3 text-gray-700"></i><p>Enter an ingredient to generate an AI-style nutrition breakdown.</p></div>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+</div>
+</div>
+</section>
+
+<!-- TESTIMONIAL -->
+<section class="py-24 border-t border-white/5">
+<div class="max-w-4xl mx-auto px-5 text-center">
+<div class="text-gold text-xs uppercase tracking-[.3em] mb-5">Guest Stories</div>
+<div class="glass rounded-3xl p-8 md:p-12">
+<div id="reviewStars" class="text-xl mb-6">★★★★★</div>
+<p id="reviewText" class="font-display text-2xl md:text-3xl leading-relaxed">“The food feels like fast food redesigned for a luxury dining experience.”</p>
+<div class="mt-6 text-sm text-gray-500" id="reviewName">— Ayesha K.</div>
+<div class="flex justify-center gap-2 mt-8">
+<button onclick="prevReview()" class="w-9 h-9 rounded-full border border-white/10"><i class="fa-solid fa-chevron-left"></i></button>
+<button onclick="nextReview()" class="w-9 h-9 rounded-full border border-white/10"><i class="fa-solid fa-chevron-right"></i></button>
+</div>
+</div>
+</div>
+</section>
+
+<!-- FOOTER -->
+<footer class="border-t border-white/5 pt-16 pb-8">
+<div class="max-w-7xl mx-auto px-5">
+<div class="grid md:grid-cols-4 gap-10 pb-12">
+<div class="md:col-span-2">
+<div class="flex items-center gap-3 mb-5">
+<div class="w-10 h-10 rounded-xl gold-gradient text-black flex items-center justify-center"><i class="fa-solid fa-crown"></i></div>
+<div class="font-display text-2xl tracking-[.2em]">NOIRÉ</div>
+</div>
+<p class="text-gray-500 max-w-md leading-7">Premium fast food, intelligent nutrition and a beautifully simple digital dining experience.</p>
+</div>
+<div>
+<h4 class="font-semibold mb-4">Explore</h4>
+<div class="space-y-3 text-sm text-gray-500">
+<a href="#burgers" class="block hover:text-gold">Burgers</a>
+<a href="#pizza" class="block hover:text-gold">Pizza</a>
+<a href="#shawarma" class="block hover:text-gold">Shawarma</a>
+<a href="#deals" class="block hover:text-gold">Deals</a>
+</div>
+</div>
+<div>
+<h4 class="font-semibold mb-4">Experience</h4>
+<div class="space-y-3 text-sm text-gray-500">
+<a href="#ai-calorie" class="block hover:text-gold">AI Calorie Hub</a>
+<a href="#beverages" class="block hover:text-gold">Next Cola</a>
+<a href="#home" class="block hover:text-gold">Back to top</a>
+</div>
+</div>
+</div>
+<div class="border-t border-white/5 pt-7 flex flex-col sm:flex-row justify-between gap-4 text-xs text-gray-600">
+<span>© 2026 NOIRÉ Premium Dining. All rights reserved.</span>
+<span>Crafted for unforgettable cravings.</span>
+</div>
+</div>
+</footer>
+
+<!-- CART OVERLAY -->
+<div id="cartOverlay" onclick="closeCart()" class="overlay fixed inset-0 bg-black/70 backdrop-blur-sm z-[70] opacity-0 pointer-events-none"></div>
+
+<!-- CART DRAWER -->
+<aside id="cartDrawer" class="fixed top-0 right-0 h-full w-full sm:w-[430px] bg-[#090909] border-l border-white/10 z-[80] translate-x-full flex flex-col">
+<div class="p-5 border-b border-white/10 flex items-center justify-between">
+<div>
+<h2 class="font-display text-2xl">Your Order</h2>
+<p class="text-xs text-gray-500 mt-1"><span id="drawerCount">0</span> items selected</p>
+</div>
+<button onclick="closeCart()" class="w-10 h-10 rounded-xl border border-white/10"><i class="fa-solid fa-xmark"></i></button>
+</div>
+
+<div id="cartItems" class="flex-1 overflow-y-auto p-5 space-y-3">
+<div class="text-center text-gray-600 py-20">
+<i class="fa-solid fa-bag-shopping text-4xl mb-4"></i>
+<p>Your cart is waiting.</p>
+</div>
+</div>
+
+<div class="border-t border-white/10 p-5">
+<div class="flex justify-between text-gray-400 mb-2"><span>Subtotal</span><span id="subtotal">Rs. 0</span></div>
+<div class="flex justify-between text-gray-400 mb-4"><span>Delivery</span><span id="delivery">Rs. 0</span></div>
+<div class="flex justify-between text-xl font-bold mb-5"><span>Total</span><span class="text-gold" id="total">Rs. 0</span></div>
+
+<div class="space-y-2 mb-4">
+<input id="customerName" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-gold/50" placeholder="Your name">
+<input id="customerAddress" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-gold/50" placeholder="Delivery address">
+</div>
+
+<button onclick="checkoutWhatsApp()" class="w-full gold-gradient text-black font-bold py-4 rounded-xl hover:scale-[1.01] transition">
+<i class="fa-brands fa-whatsapp text-lg mr-2"></i> Checkout via WhatsApp
+</button>
+<p class="text-[10px] text-center text-gray-600 mt-3">Your order details will be prepared automatically for WhatsApp.</p>
+</div>
+</aside>
+
+<!-- FLOATING CART -->
+<button onclick="openCart()" class="fixed bottom-5 right-5 z-50 gold-gradient text-black w-14 h-14 rounded-2xl shadow-2xl shadow-gold/20 pulse-gold flex items-center justify-center">
+<i class="fa-solid fa-bag-shopping"></i>
+<span id="floatingCount" class="absolute -top-2 -right-2 bg-crimson text-white text-xs w-6 h-6 rounded-full flex items-center justify-center">0</span>
+</button>
+
+<!-- TOAST -->
+<div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[100] glass px-5 py-3 rounded-xl text-sm opacity-0 pointer-events-none transition-all duration-300">
+<i class="fa-solid fa-check text-green-400 mr-2"></i><span id="toastText">Added to cart</span>
+</div>
+
+<script>
+/* =========================
+   MOBILE NAVIGATION
+========================= */
+const mobileBtn = document.getElementById('mobileBtn');
+const mobileNav = document.getElementById('mobileNav');
+
+mobileBtn.addEventListener('click',()=>{
+    mobileNav.classList.toggle('hidden');
+    mobileBtn.innerHTML = mobileNav.classList.contains('hidden')
+        ? '<i class="fa-solid fa-bars"></i>'
+        : '<i class="fa-solid fa-xmark"></i>';
+});
+
+document.querySelectorAll('.mobile-link').forEach(link=>{
+    link.addEventListener('click',()=>{
+        mobileNav.classList.add('hidden');
+        mobileBtn.innerHTML='<i class="fa-solid fa-bars"></i>';
+    });
+});
+
+/* =========================
+   TYPING HERO
+========================= */
+const typingText="Taste the Future of Premium Dining";
+let typeIndex=0;
+
+function typeHero(){
+    if(typeIndex<=typingText.length){
+        document.getElementById('typingText').textContent=typingText.slice(0,typeIndex++);
+        setTimeout(typeHero,65);
+    }
+}
+typeHero();
+
+/* =========================
+   SCROLL REVEAL
+========================= */
+const observer=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+        if(entry.isIntersecting) entry.target.classList.add('show');
+    });
+},{threshold:.12});
+
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+/* =========================
+   ACTIVE NAV TRACKING
+========================= */
+const sections=document.querySelectorAll('section[id]');
+const navLinks=document.querySelectorAll('.nav-link');
+
+window.addEventListener('scroll',()=>{
+    let current='home';
+
+    sections.forEach(section=>{
+        const top=section.offsetTop-150;
+        if(window.scrollY>=top) current=section.id;
+    });
+
+    navLinks.forEach(link=>{
+        link.classList.toggle('active',link.getAttribute('href')==='#'+current);
+    });
+});
+
+/* =========================
+   CART
+========================= */
+let cart=[];
+
+function addToCart(name,price){
+    const existing=cart.find(item=>item.name===name);
+
+    if(existing){
+        existing.qty++;
+    }else{
+        cart.push({name,price,qty:1});
+    }
+
+    updateCart();
+    showToast(name+" added to your order");
+}
+
+function changeQty(index,amount){
+    cart[index].qty+=amount;
+
+    if(cart[index].qty<=0){
+        cart.splice(index,1);
+    }
+
+    updateCart();
+}
+
+function updateCart(){
+    const totalItems=cart.reduce((sum,item)=>sum+item.qty,0);
+    const subtotal=cart.reduce((sum,item)=>sum+(item.price*item.qty),0);
+    const delivery=subtotal>0?200:0;
+    const total=subtotal+delivery;
+
+    document.getElementById('cartCount').textContent=totalItems;
+    document.getElementById('floatingCount').textContent=totalItems;
+    document.getElementById('drawerCount').textContent=totalItems;
+    document.getElementById('subtotal').textContent='Rs. '+subtotal.toLocaleString();
+    document.getElementById('delivery').textContent='Rs. '+delivery.toLocaleString();
+    document.getElementById('total').textContent='Rs. '+total.toLocaleString();
+
+    const container=document.getElementById('cartItems');
+
+    if(cart.length===0){
+        container.innerHTML=`
+        <div class="text-center text-gray-600 py-20">
+            <i class="fa-solid fa-bag-shopping text-4xl mb-4"></i>
+            <p>Your cart is waiting.</p>
+        </div>`;
+        return;
+    }
+
+    container.innerHTML=cart.map((item,index)=>`
+        <div class="cart-item glass rounded-xl p-4">
+            <div class="flex justify-between gap-3">
+                <div>
+                    <h4 class="font-semibold text-sm">${item.name}</h4>
+                    <p class="text-gold text-sm mt-1">Rs. ${item.price.toLocaleString()}</p>
+                </div>
+                <button onclick="changeQty(${index},-${item.qty})" class="text-gray-600 hover:text-red-400">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+            </div>
+            <div class="flex items-center justify-between mt-4">
+                <span class="text-xs text-gray-500">Quantity</span>
+                <div class="flex items-center gap-3">
+                    <button onclick="changeQty(${index},-1)" class="w-8 h-8 rounded-lg border border-white/10">−</button>
+                    <span class="font-bold">${item.qty}</span>
+                    <button onclick="changeQty(${index},1)" class="w-8 h-8 rounded-lg border border-white/10">+</button>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function openCart(){
+    document.getElementById('cartDrawer').classList.remove('translate-x-full');
+    document.getElementById('cartOverlay').classList.remove('opacity-0','pointer-events-none');
+}
+
+function closeCart(){
+    document.getElementById('cartDrawer').classList.add('translate-x-full');
+    document.getElementById('cartOverlay').classList.add('opacity-0','pointer-events-none');
+}
+
+function showToast(message){
+    const toast=document.getElementById('toast');
+    document.getElementById('toastText').textContent=message;
+    toast.classList.remove('opacity-0');
+    toast.classList.add('opacity-100');
+    setTimeout(()=>{
+        toast.classList.add('opacity-0');
+        toast.classList.remove('opacity-100');
+    },2200);
+}
+
+/* =========================
+   WHATSAPP CHECKOUT
+========================= */
+function checkoutWhatsApp(){
+    if(cart.length===0){
+        showToast('Please add an item first');
+        return;
+    }
+
+    const name=document.getElementById('customerName').value.trim() || 'Not provided';
+    const address=document.getElementById('customerAddress').value.trim() || 'Not provided';
+
+    const subtotal=cart.reduce((sum,item)=>sum+(item.price*item.qty),0);
+    const delivery=200;
+    const total=subtotal+delivery;
+
+    let message=
+`🍔 *NOIRÉ PREMIUM DINING — NEW ORDER*
+
+Hello NOIRÉ, I would like to place this order:
+
+`;
+
+    cart.forEach((item,index)=>{
+        message+=`${index+1}. *${item.name}*
+   Qty: ${item.qty}
+   Price: Rs. ${(item.price*item.qty).toLocaleString()}
+
+`;
+    });
+
+    message+=
+`━━━━━━━━━━━━━━━━━━
+*Subtotal:* Rs. ${subtotal.toLocaleString()}
+*Delivery:* Rs. ${delivery.toLocaleString()}
+*TOTAL:* Rs. ${total.toLocaleString()}
+
+👤 *Customer:* ${name}
+📍 *Address:* ${address}
+
+Please confirm my order. Thank you!`;
+
+    const whatsappNumber='923004286689';
+    const url='https://wa.me/'+whatsappNumber+'?text='+encodeURIComponent(message);
+
+    window.open(url,'_blank');
+}
+
+/* =========================
+   AI CALORIE HUB
+========================= */
+const nutritionData={
+    crown:{cal:820,protein:42,carbs:64,fats:38},
+    truffle:{cal:760,protein:39,carbs:55,fats:40},
+    avocado:{cal:560,protein:38,carbs:42,fats:23},
+    pizza:{cal:720,protein:31,carbs:76,fats:30},
+    shawarma:{cal:510,protein:39,carbs:35,fats:20},
+    fries:{cal:590,protein:9,carbs:61,fats:34},
+    cola:{cal:630,protein:0,carbs:160,fats:0}
+};
+
+const foodSelect=document.getElementById('foodSelect');
+
+foodSelect.addEventListener('change',updateNutrition);
+
+function updateNutrition(){
+    const d=nutritionData[foodSelect.value];
+
+    document.getElementById('calories').textContent=d.cal;
+    document.getElementById('protein').textContent=d.protein;
+    document.getElementById('carbs').textContent=d.carbs;
+    document.getElementById('fats').textContent=d.fats;
+
+    document.getElementById('calBar').style.width=Math.min(d.cal/10,100)+'%';
+    document.getElementById('proteinBar').style.width=Math.min(d.protein*2,100)+'%';
+    document.getElementById('carbsBar').style.width=Math.min(d.carbs,100)+'%';
+    document.getElementById('fatsBar').style.width=Math.min(d.fats*2,100)+'%';
+}
+
+const ingredientData={
+    avocado:{cal:160,protein:2,carbs:9,fats:15,desc:'Rich in healthy monounsaturated fats, fiber and potassium.'},
+    chicken:{cal:165,protein:31,carbs:0,fats:3.6,desc:'High-protein ingredient with relatively low carbohydrates.'},
+    beef:{cal:250,protein:26,carbs:0,fats:17,desc:'Protein-rich ingredient with iron, zinc and B vitamins.'},
+    cheese:{cal:402,protein:25,carbs:1.3,fats:33,desc:'Calorie-dense dairy ingredient rich in protein and calcium.'},
+    potato:{cal:77,protein:2,carbs:17,fats:.1,desc:'A carbohydrate-rich whole-food ingredient containing potassium.'},
+    tomato:{cal:18,protein:.9,carbs:3.9,fats:.2,desc:'Low-calorie ingredient containing vitamin C and antioxidants.'},
+    lettuce:{cal:15,protein:1.4,carbs:2.9,fats:.2,desc:'Very light, hydrating leafy vegetable with fiber.'},
+    rice:{cal:130,protein:2.7,carbs:28,fats:.3,desc:'Primarily carbohydrate-based energy source.'}
+};
+
+function analyzeIngredient(){
+    const input=document.getElementById('ingredientInput').value.trim().toLowerCase();
+    const result=document.getElementById('aiResult');
+
+    if(!input){
+        result.innerHTML='<div class="text-red-300 text-sm">Please enter an ingredient.</div>';
+        return;
+    }
+
+    result.innerHTML=`
+        <div class="flex items-center justify-center h-full gap-3 text-gold">
+            <div class="ai-loader"></div>
+            <span>NOIRÉ AI is analysing "${input}"...</span>
+        </div>`;
+
+    setTimeout(()=>{
+        let found=null;
+
+        Object.keys(ingredientData).forEach(key=>{
+            if(input.includes(key)) found=ingredientData[key];
+        });
+
+        if(!found){
+            result.innerHTML=`
+            <div>
+                <div class="text-gold font-semibold mb-2">AI Estimate</div>
+                <p class="text-gray-400 text-sm leading-6">
+                    I couldn't find an exact ingredient profile. For a real nutrition
+                    value, use the packaged ingredient's nutrition label or a verified database.
+                    This demo intentionally provides simulated AI results.
+                </p>
+            </div>`;
+            return;
+        }
+
+        result.innerHTML=`
+        <div>
+            <div class="flex justify-between items-center mb-5">
+                <div>
+                    <div class="text-gold text-xs uppercase tracking-widest">AI Nutrition Estimate</div>
+                    <h4 class="font-display text-2xl mt-1 capitalize">${input}</h4>
+                </div>
+                <i class="fa-solid fa-brain text-gold text-2xl"></i>
+            </div>
+
+            <div class="grid grid-cols-4 gap-2">
+                <div class="bg-white/[.04] rounded-lg p-3 text-center"><b>${found.cal}</b><span class="block text-[10px] text-gray-500">KCAL</span></div>
+                <div class="bg-white/[.04] rounded-lg p-3 text-center"><b>${found.protein}g</b><span class="block text-[10px] text-gray-500">PROTEIN</span></div>
+                <div class="bg-white/[.04] rounded-lg p-3 text-center"><b>${found.carbs}g</b><span class="block text-[10px] text-gray-500">CARBS</span></div>
+                <div class="bg-white/[.04] rounded-lg p-3 text-center"><b>${found.fats}g</b><span class="block text-[10px] text-gray-500">FATS</span></div>
+            </div>
+
+            <p class="text-gray-500 text-xs mt-5 leading-5">${found.desc}</p>
+        </div>`;
+    },1100);
+}
+
+document.getElementById('ingredientInput').addEventListener('keydown',e=>{
+    if(e.key==='Enter') analyzeIngredient();
+});
+
+/* =========================
+   COUNTDOWN DEALS
+========================= */
+const dealEnds={
+    deal1:Date.now()+1000*60*60*8,
+    deal2:Date.now()+1000*60*60*13,
+    deal3:Date.now()+1000*60*60*19
+};
+
+function updateCountdowns(){
+    document.querySelectorAll('[data-countdown]').forEach(el=>{
+        const id=el.dataset.countdown;
+        let diff=dealEnds[id]-Date.now();
+
+        if(diff<0){
+            dealEnds[id]=Date.now()+1000*60*60*24;
+            diff=dealEnds[id]-Date.now();
+        }
+
+        const h=Math.floor(diff/3600000);
+        const m=Math.floor((diff%3600000)/60000);
+        const s=Math.floor((diff%60000)/1000);
+
+        el.textContent=
+            String(h).padStart(2,'0')+':'+
+            String(m).padStart(2,'0')+':'+
+            String(s).padStart(2,'0');
+    });
+}
+setInterval(updateCountdowns,1000);
+updateCountdowns();
+
+/* =========================
+   REVIEWS
+========================= */
+const reviews=[
+    {
+        text:"The food feels like fast food redesigned for a luxury dining experience.",
+        name:"— Ayesha K."
+    },
+    {
+        text:"The AI calorie feature is surprisingly useful. I can choose my meal before ordering.",
+        name:"— Hamza R."
+    },
+    {
+        text:"Beautiful presentation, fast ordering and the burgers are genuinely premium.",
+        name:"— Sarah M."
+    },
+    {
+        text:"The Family Pizza deal is perfect for a weekend dinner. Excellent value.",
+        name:"— Ali H."
+    }
+];
+
+let reviewIndex=0;
+
+function renderReview(){
+    document.getElementById('reviewText').textContent='“'+reviews[reviewIndex].text+'”';
+    document.getElementById('reviewName').textContent=reviews[reviewIndex].name;
+}
+
+function nextReview(){
+    reviewIndex=(reviewIndex+1)%reviews.length;
+    renderReview();
+}
+
+function prevReview(){
+    reviewIndex=(reviewIndex-1+reviews.length)%reviews.length;
+    renderReview();
+}
+
+setInterval(nextReview,5000);
+
+/* Initial state */
+updateCart();
+</script>
+
+</body>
+</html>
+```
